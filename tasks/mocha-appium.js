@@ -9,6 +9,9 @@ module.exports = function(grunt) {
   var wd = require('wd');
   var appiumLauncher = require('./lib/appium-launcher');
   var _ = grunt.util._;
+  var chai = require("chai");
+  var chaiAsPromised = require("chai-as-promised");
+
 
   grunt.registerMultiTask('mochaAppium', 'Run functional tests with mocha', function() {
     var done = this.async();
@@ -16,6 +19,12 @@ module.exports = function(grunt) {
     var options = this.options({
       usePromises: false
     });
+
+    if (options.useChai) {;
+        chai.use(chaiAsPromised);
+        chai.should();
+        chaiAsPromised.transferPromiseness = wd.transferPromiseness;
+    }
 
     // We want color in our output, but when grunt-contrib-watch is used,
     //  mocha will detect that it's being run to a pipe rather than tty.
@@ -78,6 +87,7 @@ module.exports = function(grunt) {
       });
 
       var remote = options.usePromises ? 'promiseRemote' : 'remote';
+      remote = options.useChaining ? 'promiseChainRemote' : remote;
       var browser = wd[remote](appium.host, appium.port);
 
       var opts = _.omit(options, 'usePromises', 'appiumPath');

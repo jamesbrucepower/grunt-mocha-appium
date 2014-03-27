@@ -36,6 +36,8 @@
   "dependencies": {
     "wd": "~0.2.5",
     "mocha": "~1.14.0",
-    "freeport": "~1.0.2"
+    "freeport": "~1.0.2",
+    "chai": "~1.9.1",
+    "chai-as-promised": "~4.1.1"
   }
 }
