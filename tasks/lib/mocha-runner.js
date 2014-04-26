@@ -34,10 +34,6 @@ module.exports = function(options, browser, grunt, fileGroup){
   runner.ignoreLeaks = options.ignoreLeaks;
   runner.asyncOnly = options.asyncOnly;
 
-  runner.on('fail', function(test, err){
-    process.exit(1);
-  });
-
   if (options.grep) runner.grep(options.grep, options.invert);
   if (options.globals) runner.globals(options.globals);
   if (options.growl) mocha._growl(runner, reporter);
