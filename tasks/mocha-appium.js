@@ -46,10 +46,10 @@ module.exports = function(grunt) {
     // Better, deals with more than just grunt?
 
     // Restore prior state.
-    var restore = function() {
+    var restore = function(err) {
       mochaReporterBase.useColors = priorUseColors;
       unmanageExceptions();
-      done();
+      done(!err);
     };
 
     grunt.util.async.forEachSeries(this.files, function(fileGroup, next){
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
     var mochaDone = function(errCount) {
       var withoutErrors = (errCount === 0);
       // Indicate whether we failed to the grunt task runner
-      next(withoutErrors);
+      next(errCount > 0);
     };
 
     // launch appium
